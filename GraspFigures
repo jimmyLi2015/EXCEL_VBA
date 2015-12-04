@@ -1,0 +1,47 @@
+#Grasp and eliminate duplications.
+
+Sub GraspFigures()
+
+Dim list()
+
+Dim rng As Range
+
+Set dic = CreateObject("Scripting.Dictionary")
+
+For Each Cell In ActiveSheet.Range(Range("A1"), Range("A1").End(xlDown))
+
+    If Not dic.exists(Cell.Value) Then
+    
+        dic.Add Cell.Value, Cell.Value
+        On Error Resume Next
+        
+    End If
+    
+Next
+
+list = dic.items
+
+For i = 1 To dic.Count
+
+    ActiveSheet.Cells(i, 5) = list(i - 1)
+    
+    Set rng = ActiveSheet.Columns(1).Find(list(i - 1))
+    
+    If rng Is Nothing Then
+    
+        MsgBox "no match"
+        
+        Exit For
+    
+    Else
+    
+    ActiveSheet.Cells(i, 6) = rng.Offset(0, 1).Value
+    
+    ActiveSheet.Cells(i, 7) = rng.Offset(0, 2).Value
+    
+    End If
+    
+Next
+
+
+End Sub
