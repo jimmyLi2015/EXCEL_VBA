@@ -1,0 +1,157 @@
+##Main Function
+Public OriInc As Single, SocIns As Single, TaxThr As Integer
+
+Sub Init()
+
+Load UserForm1
+UserForm1.Show
+
+End Sub
+
+Sub TaxCalculation()
+
+Unload UserForm1
+Load UserForm2
+
+Dim TaxInc As Single, TaxRat As Single, QuiCalDed As Integer, TaxPay As Single, NetInc As Single
+
+TaxInc = OriInc - SocIns - TaxThr
+
+UserForm2.Box1.Value = TaxInc
+
+Select Case TaxInc
+
+    Case 0 To 1500
+    TaxRat = 0.03
+    QuiCalDed = 0
+
+    Case 1501 To 4500
+    TaxRat = 0.1
+    QuiCalDed = 105
+    
+    Case 4501 To 9000
+    TaxRat = 0.2
+    QuiCalDed = 555
+    
+    Case 9001 To 35000
+    TaxRat = 0.25
+    QuiCalDed = 1005
+    
+    Case 35001 To 55000
+    TaxRat = 0.3
+    QuiCalDed = 2775
+    
+    Case 55001 To 80000
+    TaxRat = 0.35
+    QuiCalDed = 5505
+    
+    Case Else
+    TaxRat = 0.45
+    QuiCalDed = 13505
+    
+End Select
+
+UserForm2.Box2.Value = TaxRat
+UserForm2.Box3.Value = QuiCalDed
+
+TaxPay = TaxInc * TaxRat - QuiCalDed
+
+UserForm2.Box4.Value = TaxPay
+
+NetInc = OriInc - SocIns - TaxPay
+
+UserForm2.Box5.Value = NetInc
+
+UserForm2.Show
+
+E:
+End Sub
+
+
+##Userform1
+Private Sub Box1_Change()
+
+OriInc = UserForm1.Box1.Value
+
+If OriInc <= 0 Then
+    
+    MsgBox ("Income must be over zero.")
+    
+End If
+
+End Sub
+
+Private Sub Box2_Change()
+
+SocIns = UserForm1.Box2.Value
+
+If SocIns <= 0 Then
+    
+    MsgBox ("Social insurance must be over zero.")
+    
+End If
+
+If OriInc <= SocIns Then
+    
+    MsgBox ("Income must be more than social insurance.")
+    
+End If
+
+End Sub
+
+Private Sub Box3_Change()
+
+TaxThr = UserForm1.Box3.Value
+
+If TaxThr <> 3500 Or TaxThr <> 4800 Then
+    
+    MsgBox ("Tax Threshold must be 3500 or 4800.")
+    
+End If
+
+End Sub
+
+Private Sub CommandButton1_Click()
+
+Call TaxCalculation
+
+End Sub
+
+Private Sub FrameInput_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+Box3.AddItem 3500
+Box3.AddItem 4800
+
+End Sub
+
+##Userform2
+Private Sub CommandButton1_Click()
+
+Unload UserForm2
+
+End Sub
+
+
+Private Sub UserForm_Initialize()
+
+Box2.AddItem 0.03
+Box2.AddItem 0.1
+Box2.AddItem 0.2
+Box2.AddItem 0.25
+Box2.AddItem 0.3
+Box2.AddItem 0.35
+Box2.AddItem 0.45
+
+Box3.AddItem 0
+Box3.AddItem 105
+Box3.AddItem 555
+Box3.AddItem 1005
+Box3.AddItem 2775
+Box3.AddItem 5505
+Box3.AddItem 13505
+
+End Sub
