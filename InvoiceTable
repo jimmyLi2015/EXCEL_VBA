@@ -1,0 +1,107 @@
+Public n As Integer
+
+Public list() As Variant
+
+Public content As Integer, index As Integer
+
+Public Userform1 As UserForm
+
+Sub Insert()
+
+Dim name
+name = Array("Item", "Quantity", "Price", "Surcharge", "Weight", "Delivery", "Comment")
+
+index = 7
+content = 2
+
+ReDim Preserve list(content, index)
+
+For n = 1 To index
+
+    list(1, n) = name(n - 1)
+
+    list(content, n) = Userform1.OLEObjects("Box" & n).Value
+
+Next
+content = content + 1
+
+End Sub
+
+
+Sub Show()
+
+Dim Sheet As Worksheet
+
+Set Sheet = Sheets.Add
+
+Sheet.name = "Receipt"
+
+For i = 1 To content
+    For j = 1 To index
+    
+    Sheet.Cells(i, j) = list(i, j)
+    
+    Next
+Next
+
+For n = 1 To index
+
+    Columns(n).EntireColumn.AutoFit
+
+Next
+
+
+Sheet.UsedRange.Select
+Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+
+
+End Sub
+
+Sub Init()
+
+Load Userform1
+Userform1.Show
+
+End Sub
+
+
+
+
+
